@@ -1,0 +1,15 @@
+**/.dockerignore
+docker-compose.override.yml
+docker-compose.local.yml
+
+.env
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+*.swp
+*.bak
+*.tmp
+*.log

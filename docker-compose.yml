@@ -1,0 +1,30 @@
+networks:
+  rutasabor_net:
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "${FRONT_PORT}:5173"
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    networks:
+      - rutasabor_net
+    volumes:
+      - ./frontend:/app
+    command: npm run dev -- --host
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - "${BACK_PORT}:8000"
+    networks:
+      - rutasabor_net
+    volumes:
+      - ./backend/app:/app/app
+    environment:
+      - PYTHONUNBUFFERED=1
