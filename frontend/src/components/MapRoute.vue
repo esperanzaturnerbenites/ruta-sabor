@@ -14,7 +14,7 @@ const props = defineProps({
     required: true,
   },
   userCoords: {
-    type: Array,
+    type: Object,
     required: true,
   },
 })
@@ -64,7 +64,7 @@ onMounted(async () => {
   }).addTo(map)
 
   // Coordenadas de origen (usuario) + lugares
-  const routeCoords = [[props.userCoords.longitude, props.userCoords.latitude]] // nota: lng, lat
+  const routeCoords = [[props.userCoords.longitude, props.userCoords.latitude]]
 
   // Marcador de ubicación actual
   L.marker([props.userCoords.latitude, props.userCoords.longitude])
@@ -80,7 +80,7 @@ onMounted(async () => {
       .addTo(map)
       .bindPopup(`<strong>${place.place_name}</strong><br>${place.address}<br><a href="https://maps.google.com/?q=${lat},${lng}" target="_blank">Ver en Google Maps</a>`)
 
-    routeCoords.push([lng, lat]) // ORS espera [lng, lat]
+    routeCoords.push([lng, lat])
   })
 
   // Dibujar ruta real

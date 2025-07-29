@@ -90,6 +90,9 @@
           <div v-if="showMapRoute && places.length > 0 && coords.latitude !== null && coords.longitude !== null" style="height: 400px; width: 600px;">
             <MapRoute :places="places" :userCoords="coords"></MapRoute>
           </div>
+          <div v-else-if="coords.latitude === null && coords.longitude === null">
+            <p>No se pudo obtener tu ubicación actual. Por favor, intenta de nuevo más tarde.</p>
+          </div>
           <div v-else>
             <p>No hay lugares para mostrar en el mapa.</p>
           </div>
@@ -134,7 +137,10 @@ const emit = defineEmits(['message', 'selectFilter'])
 
 const showMapRoute = ref(false)
 const places = ref([])
-const coords = ref([])
+const coords = ref({
+  latitude: null,
+  longitude: null
+})
 const typeFood = ref(null)
 const newMessage = ref(null)
 const messages = ref([

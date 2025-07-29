@@ -35,13 +35,22 @@
         </p>
 
         <div>
-          <p v-if="coords">
+          <p v-if="coords.latitude && coords.longitude">
             <!--
             Estás en: lat {{ coords.latitude.toFixed(5) }}, long {{ coords.longitude.toFixed(5) }}
             -->
           </p>
-          <p v-else-if="error">{{ error }}</p>
+          <p v-else-if="error"></p>
           <p v-else>Cargando tu ubicación...</p>
+        </div>
+
+        <div class="has-text-centered mt-6">
+          <p
+            v-if="error"
+            class="has-text-danger is-size-6 has-text-weight-semibold"
+          >
+            ⚠️ {{ error }}
+          </p>
         </div>
 
         <div v-if="searchMode === 'chat'" class="mt-6">
@@ -201,15 +210,6 @@
         </div>
       </div>
 
-      <div class="has-text-centered mt-6">
-        <p
-          v-if="error"
-          class="has-text-danger is-size-6 has-text-weight-semibold"
-        >
-          ⚠️ {{ error }}
-        </p>
-      </div>
-
       <div v-if="searchMode === 'filters' && places.length > 0">
         <button
           class="button is-primary is-light"
@@ -277,7 +277,10 @@ const showMapRoute = ref(false)
 const chatRef = ref(null)
 
 const places = ref([])
-const coords = ref(null)
+const coords = ref({
+  latitude: null,
+  longitude: null
+})
 
 const message = ref(null)
 const typeFood = ref(null)
@@ -427,7 +430,10 @@ onMounted(() => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        coords.value = position.coords
+        coords.value = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }
       },
       (err) => {
         error.value = "No pudimos obtener tu ubicación 😓"
